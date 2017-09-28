@@ -3,7 +3,7 @@
     <div class="column is-8 has-text-centered">
       <img src="./../assets/logo.png">
     </div>
-    <div class="column is-4">
+    <div class="column is-4 pad-0">
       <div class="hero is-fullheight bg-primary">
         <div class="hero-body">
           <div class="container">
@@ -21,7 +21,9 @@
                   </ul>
                 </div>
                 <div class="is-self-aligned-end">
-                  <button class="button is-primary is-inverted is-outlined is-large">Empezar</button>
+                  <router-link to="/interest/simple">
+                    <button class="button is-primary is-inverted is-outlined is-large">Empezar</button>
+                  </router-link>
                 </div>
               </div>
             </div>

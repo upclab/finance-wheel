@@ -1,13 +1,29 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <transition name="fade" mode="out-in">
+      <nav-bar v-if="!pathIsWelcome"></nav-bar>
+    </transition>
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
+import NavBar from './components/Shared/NavBar';
+
 export default {
-  name: 'app',
+  name: 'finance-wheel',
+  computed: {
+    pathIsWelcome() {
+      return this.$route.path === '/';
+    },
+  },
+  components: {
+    NavBar,
+  },
 };
+
 </script>
 
 <style lang="scss">
@@ -22,7 +38,12 @@ $family-sans-serif: BlinkMacSystemFont, -apple-system, "Lato", "Segoe UI", "Robo
 $primary: $purple;
 $danger: $red;
 
+$scu-margins: (0 5 10 15 20 30);
+
 @import "node_modules/bulma/bulma";
+@import "node_modules/sass-util/main";
+
 @import "assets/sass/utils/all";
+@import "assets/sass/animations/all";
 
 </style>
