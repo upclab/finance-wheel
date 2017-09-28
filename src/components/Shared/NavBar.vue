@@ -2,7 +2,7 @@
   <nav class="navbar has-shadow">
     <div class="navbar-brand">
       <router-link class="navbar-item" to="/">
-        <img src="/static/logo.png" alt="Finance Wheel: Tu asistente de problemas financieros!" height="28">
+        <img src="/static/Logo.png" alt="Finance Wheel: Tu asistente de problemas financieros!" height="28">
       </router-link>
       <a class="navbar-item is-hidden-desktop" href="https://github.com/upclab/finance-wheel" target="_blank">
         <span class="icon" style="color: #333;">
