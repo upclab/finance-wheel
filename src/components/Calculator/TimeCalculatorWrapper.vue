@@ -1,17 +1,17 @@
 <template>
   <div>
-    <add-substract-days-calculator></add-substract-days-calculator>
+    <add-subtract-days-calculator></add-subtract-days-calculator>
     <hr>
   </div>
 </template>
 
 <script>
-import AddSubstractDaysCalculator from './TimeCalculator/AddSubstractDaysCalculator';
+import AddSubtractDaysCalculator from './TimeCalculator/AddSubtractDaysCalculator';
 
 export default {
   name: 'time-calculator-wrapper',
   components: {
-    AddSubstractDaysCalculator,
+    AddSubtractDaysCalculator,
   },
 };
 
