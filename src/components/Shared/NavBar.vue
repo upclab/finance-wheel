@@ -31,6 +31,17 @@
             </a>
           </div>
         </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <router-link class="navbar-link" active-class="is-active" to="/calculator/math">Calculadoras</router-link>
+          <div class="navbar-dropdown is-boxed">
+            <router-link class="navbar-item" active-class="is-active" to="/calculator/math">
+              Calculadora Matemática
+            </router-link>
+            <router-link class="navbar-item" active-class="is-active" to="/calculator/time">
+              Calculadora de Tiempo
+            </router-link>
+          </div>
+        </div>
       </div>
 
       <div class="navbar-end">
@@ -39,7 +50,6 @@
             <icon name="github" scale="3"></icon>
           </span>
         </a>
-
         <div class="navbar-item">
           <div class="field is-grouped">
             <p class="control">
@@ -51,7 +61,6 @@
               </a>
             </p>
           </div>
-
         </div>
       </div>
     </div>

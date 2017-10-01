@@ -7,6 +7,10 @@ import SimpleInterest from '@/components/Interest/SimpleInterest';
 import NominalInterest from '@/components/Interest/NominalInterest';
 import EffectiveInterest from '@/components/Interest/EffectiveInterest';
 
+import CalculatorWrapper from '@/components/Calculator/CalculatorWrapper';
+import MathCalculator from '@/components/Calculator/MathCalculator';
+import TimeCalculator from '@/components/Calculator/TimeCalculatorWrapper';
+
 Vue.use(Router);
 
 export default new Router({
@@ -34,6 +38,22 @@ export default new Router({
           path: 'effective',
           name: 'interest.effective',
           component: EffectiveInterest,
+        },
+      ],
+    },
+    {
+      path: '/calculator',
+      component: CalculatorWrapper,
+      children: [
+        {
+          path: 'math',
+          name: 'calculator.math',
+          component: MathCalculator,
+        },
+        {
+          path: 'time',
+          name: 'calculator.time',
+          component: TimeCalculator,
         },
       ],
     },

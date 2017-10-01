@@ -38,11 +38,12 @@ $family-sans-serif: BlinkMacSystemFont, -apple-system, "Lato", "Segoe UI", "Robo
 $primary: $purple;
 $danger: $red;
 
-$scu-margins: (0 5 10 15 20 30);
+$scu-margins: (0 5 10 15 20 25 30);
 
 @import "node_modules/bulma/bulma";
 @import "node_modules/sass-util/main";
 
+@import "assets/sass/components/all";
 @import "assets/sass/utils/all";
 @import "assets/sass/animations/all";
 

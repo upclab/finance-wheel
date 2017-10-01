@@ -1,6 +1,7 @@
 import Vue from 'vue';
 
 import 'vue-awesome/icons/github';
+import 'vue-awesome/icons/calendar';
 import 'vue-awesome/icons/desktop';
 import 'vue-awesome/icons/download';
 import Icon from 'vue-awesome/components/Icon';
