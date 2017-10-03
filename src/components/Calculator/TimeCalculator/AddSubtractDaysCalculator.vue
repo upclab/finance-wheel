@@ -53,14 +53,14 @@
               <div v-else>
                 <pre class="board">
                   <code>
-                    <span><strong><em>fecha inicial: </em></strong> {{ originalExtendedDate }}</span>
-
-                    <span>{{ `  ${date}` }}</span>
-                    <span>{{ `${operationSymbol} ${daysToAdd} días` }}</span>
-                    <span>  __________________</span>
-                    <span>{{ `  ${result}` }}</span>
-
-                    <span><strong><em>fecha resultante: </em></strong> {{ resultExtendedDate }}</span>
+                    <p><strong><em>fecha inicial: </em></strong> {{ originalExtendedDate }}</p>
+                    <br>
+                    <p>{{ `  ${date}` }}</p>
+                    <p>{{ `${operationSymbol} ${daysToAdd} días` }}</p>
+                    <p>  __________________</p>
+                    <p>{{ `  ${result}` }}</p>
+                    <br>
+                    <p><strong><em>fecha resultante: </em></strong> {{ resultExtendedDate }}</p>
                   </code>
                 </pre>
               </div>

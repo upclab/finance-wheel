@@ -84,7 +84,7 @@
             <label class="label">Tasa (i)</label>
             <div class="field has-addons">
               <div class="control is-expanded has-icons-left">
-                <input v-model="rate" class="input" type="number" step="7" placeholder="Insertar interés">
+                <input v-model="rate" class="input" type="number" step="7" placeholder="Insertar tasa">
                 <span class="icon is-small is-left">
                   <icon name="percent"></icon>
                 </span>
@@ -152,25 +152,49 @@
           <div v-else>
             <pre class="board">
               <code>
-                <span><strong><em>C: capital: </em></strong>{{ principal | money | soles }} soles</span>
-                <span><strong><em>i: tasa: </em></strong>{{ `${rate}%` }}</span>
-                <span><strong><em>tiempo transcurrido: </em></strong>{{ `${timeElapsed} ${periodToPluralSpanish(timeUnit)}` }}<span v-if="timeUnit != timePeriods.day">{{ ` = ${time} días` }}</span></span>
+                <p v-if="principalIsProvided"><strong><em>C: capital: </em></strong>{{ principal | money | soles }} soles</p>
+                <p v-if="rateIsProvided"><strong><em>i: tasa: </em></strong>{{ `${rate}%` }}</p>
+                <p v-if="timeElapsedIsProvided"><strong><em>tiempo transcurrido: </em></strong>{{ `${timeElapsed} ${periodToPluralSpanish(timeUnit)}` }}<span v-if="timeUnit != timePeriods.day">{{ ` = ${time} días` }}</span></p>
+                <p v-if="interestIsProvided"><strong><em>I: interés: </em></strong>{{ interest | money | soles }} soles</p>
+                <p v-if="totalIsProvided"><strong><em>S: valor futuro: </em></strong>{{ total | money | soles }} soles</p>
 
-                <strong><em>t: tiempo: </em></strong>
-                <strong><em class="is-size-6">{{`t = tiempo transcurrido / ${daysInAYear}`}}</em></strong>
-                <span><strong><em>t = </em></strong>{{ `${time} / ${daysInAYear}` }}</span>
-                <span><strong><em>t = </em></strong>{{ periodTime }}</span>
+                <template v-if="!rateIsProvided">
+                  <br>
+                  <p><strong><em>i: Tasa</em></strong></p>
+                  <p><strong><em class="is-size-6">i = [(S / C) - 1] / t</em></strong></p>
+                  <p><strong><em>i = </em></strong>[({{ calculatedTotal | money }} / {{ principal | money }}) - 1] / {{ periodTime }}</p>
+                  <p><strong><em>i = </em></strong>{{ `${calculatedRate}%` }} soles</p>
+                </template>
 
-                <strong><em>I: interés</em></strong>
-                <strong><em class="is-size-6">I = C x i x t</em></strong>
-                <span><strong><em>I = </em></strong>{{ principal | money }} x {{ `${rate}%` }} x {{ periodTime }}</span>
-                <span><strong><em>I = </em></strong>{{ calculatedInterest | money | soles }} soles</span>
+                <template v-if="true">
+                  <br>
+                  <p><strong><em>t: tiempo: </em></strong></p>
+                  <p><strong><em class="is-size-6">{{`t = tiempo transcurrido / ${daysInAYear}`}}</em></strong></p>
+                  <p><strong><em>t = </em></strong>{{ `${time} / ${daysInAYear}` }}</p>
+                  <p><strong><em>t = </em></strong>{{ periodTime }}</p>
+                </template>
 
-                <strong><em>S: valor futuro</em></strong>
-                <strong><em class="is-size-6">S = C + I</em></strong>
-                <span><strong><em>S = </em></strong>{{ principal | money }} + {{ calculatedInterest | money }}</span>
-                <span><strong><em>S = </em></strong>{{ calculatedTotalAmount | money | soles }} soles</span>
+                <template v-if="!interestIsProvided">
+                  <br>
+                  <p><strong><em>I: interés</em></strong></p>
+                  <p><strong><em class="is-size-6">I = C x i x t</em></strong></p>
+                  <p><strong><em>I = </em></strong>{{ principal | money }} x {{ `${rate}%` }} x {{ periodTime }}</p>
+                  <p><strong><em>I = </em></strong>{{ calculatedInterest | money | soles }} soles</p>
+                </template>
 
+                <template v-if="!totalIsProvided">
+                  <br>
+                  <p><strong><em>S: valor futuro</em></strong></p>
+                  <div v-if="interestIsProvided">
+                    <p><strong><em class="is-size-6">S = C + I</em></strong></p>
+                    <p><strong><em>S = </em></strong>{{ principal | money }} + {{ calculatedInterest | money }}</p>
+                    <p><strong><em>S = </em></strong>{{ calculatedTotal | money | soles }} soles</p>
+                  </div><div v-else>
+                    <p><strong><em class="is-size-6">S = C * (1 + i * t)</em></strong></p>
+                    <p><strong><em>S = </em></strong>{{ principal | money }} * {{ `(1 + ${rate}% * ${periodTime})` }}</p>
+                    <p><strong><em>S = </em></strong>{{ calculatedTotal | money | soles }} soles</p>
+                  </div>
+                </template>
               </code>
             </pre>
           </div>
@@ -245,6 +269,10 @@ export default {
       return this.dataProvided.length >= 3;
     },
     dataWillGetResolved() {
+      if (!this.dataEnoughToResolve) {
+        return [];
+      }
+
       const result = arrayDiff(
         Object.values(this.formulaEntities),
         this.dataProvided,
@@ -257,15 +285,14 @@ export default {
         return false;
       }
 
-      if (!this.principal) {
-        return false;
+      for (let index = 0; index < this.dataProvided.length; index += 1) {
+        const entityName = this.dataProvided[index];
+
+        if (!this.checkDataFilled(entityName)) {
+          return false;
+        }
       }
-      if (!this.rate) {
-        return false;
-      }
-      if (!this.timeElapsed) {
-        return false;
-      }
+
       return true;
     },
     time() {
@@ -283,17 +310,30 @@ export default {
       }
       return this.time / this.daysInAYear;
     },
-    calculatedInterest() { // I
+    calculatedRate() {
       if (!this.fieldsFilled) {
         return 0;
       }
-      return Number(this.principal) * Number(this.rate / 100) * this.periodTime;
+      return (((Number(this.calculatedTotal) / Number(this.principal)) - 1) * 100)
+        / this.periodTime;
     },
-    calculatedTotalAmount() { // S
+    calculatedInterest() {
       if (!this.fieldsFilled) {
         return 0;
       }
-      return Number(this.principal) + Number(this.calculatedInterest);
+      if (this.rateIsProvided) {
+        return Number(this.principal) * Number(this.rate / 100) * this.periodTime;
+      }
+      return this.interest;
+    },
+    calculatedTotal() {
+      if (!this.fieldsFilled) {
+        return 0;
+      }
+      if (this.interestIsProvided) {
+        return Number(this.principal) + Number(this.calculatedInterest);
+      }
+      return this.total;
     },
   },
   filters: {
@@ -309,6 +349,43 @@ export default {
     },
     disableDataCheckbox(dataEntity) {
       return this.dataProvided.length >= 3 && this.dataProvided.indexOf(dataEntity) === -1;
+    },
+    principalIsFilled() {
+      return this.principal !== '';
+    },
+    rateIsFilled() {
+      return this.rate !== '';
+    },
+    timeElapsedIsFilled() {
+      return this.timeElapsed !== '';
+    },
+    interestIsFilled() {
+      return this.interest !== '';
+    },
+    totalIsFilled() {
+      return this.total !== '';
+    },
+    checkDataFilled(entityName) {
+      /* eslint-disable */
+      switch (entityName) {
+        case formulaEntities.principal:
+          return this.principalIsFilled();
+
+        case formulaEntities.rate:
+          return this.rateIsFilled();
+
+        case formulaEntities.timeElapsed:
+          return this.timeElapsedIsFilled();
+
+        case formulaEntities.interest:
+          return this.interestIsFilled();
+
+        case formulaEntities.total:
+          return this.totalIsFilled();
+
+        default:
+          return false;
+      }
     },
     periodToPluralSpanish,
   },
