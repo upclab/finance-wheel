@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     fieldsFilled() {
-      if (this.date && this.daysToAdd !== '' && this.daysToAdd > 0) {
+      if (this.date && this.daysToAdd !== '' && this.daysToAdd >= 0) {
         return true;
       }
       return false;

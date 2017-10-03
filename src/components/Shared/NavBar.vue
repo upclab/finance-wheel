@@ -12,7 +12,6 @@
       </div>
     </div>
 
-
     <div class="navbar-menu" :class="{'is-active': hamburgerMenuActive}">
       <div class="navbar-start">
         <div class="navbar-item has-dropdown is-hoverable">
