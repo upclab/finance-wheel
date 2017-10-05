@@ -4,7 +4,7 @@
       {
         "type": "node",
         "request": "launch",
-        "name": "Launch Program",
+        "name": "Dev Runner App",
         "program": "${workspaceRoot}/build/dev-runner.app.js"
       }
     ]
