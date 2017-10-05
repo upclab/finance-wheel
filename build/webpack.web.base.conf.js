@@ -1,7 +1,7 @@
 const path = require('path');
 const lintFriendlyFormatter = require('eslint-friendly-formatter');
 
-const utils = require('./utils');
+const assetsPath = require('./Utils/assetsPath');
 const config = require('../config');
 const vueLoaderConfig = require('./vue-loader.conf');
 
@@ -59,7 +59,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]'),
+          name: assetsPath('img/[name].[hash:7].[ext]'),
         },
       },
       {
@@ -67,7 +67,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('media/[name].[hash:7].[ext]'),
+          name: assetsPath('media/[name].[hash:7].[ext]'),
         },
       },
       {
@@ -75,7 +75,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]'),
+          name: assetsPath('fonts/[name].[hash:7].[ext]'),
         },
       },
     ],

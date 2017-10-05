@@ -1,18 +1,20 @@
 const path = require('path');
-const utils = require('./utils');
 const webpack = require('webpack');
-const config = require('../config');
 const merge = require('webpack-merge');
-const baseWebpackConfig = require('./webpack.web.base.conf');
 const BabiliWebpackPlugin = require('babili-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 
+const styleLoaders = require('./Utils/styleLoaders');
+const assetsPath = require('./Utils/assetsPath');
+const config = require('../config');
+const baseWebpackConfig = require('./webpack.web.base.conf');
+
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({
+    rules: styleLoaders({
       sourceMap: config.build.productionSourceMap,
       extract: true,
     }),
@@ -20,8 +22,8 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js'),
+    filename: assetsPath('js/[name].[chunkhash].js'),
+    chunkFilename: assetsPath('js/[id].[chunkhash].js'),
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -31,7 +33,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css'),
+      filename: assetsPath('css/[name].[contenthash].css'),
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
@@ -62,7 +64,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks(module, count) {
+      minChunks(module) {
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&
@@ -91,7 +93,9 @@ const webpackConfig = merge(baseWebpackConfig, {
 });
 
 if (config.build.productionGzip) {
+  /* eslint-disable import/no-extraneous-dependencies, import/no-unresolved, global-require */
   const CompressionWebpackPlugin = require('compression-webpack-plugin');
+  /* eslint-enable import/no-extraneous-dependencies, import/no-unresolved, global-require */
 
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
@@ -99,7 +103,7 @@ if (config.build.productionGzip) {
       algorithm: 'gzip',
       test: new RegExp(
         `\\.(${
-        config.build.productionGzipExtensions.join('|')
+          config.build.productionGzipExtensions.join('|')
         })$`,
       ),
       threshold: 10240,
@@ -109,7 +113,9 @@ if (config.build.productionGzip) {
 }
 
 if (config.build.bundleAnalyzerReport) {
+  /* eslint-disable import/no-extraneous-dependencies, import/no-unresolved, global-require */
   const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+  /* eslint-enable import/no-extraneous-dependencies, import/no-unresolved, global-require */
   webpackConfig.plugins.push(new BundleAnalyzerPlugin());
 }
 
