@@ -12,6 +12,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 /**
  * List of node_modules to include in webpack bundle
  *
@@ -19,16 +23,36 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
  * that provide pure *.vue files that need compiling
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/webpack-configurations.html#white-listing-externals
  */
-let whiteListedModules = ['vue']
+let whiteListedModules = [
+  'add-subtract-date',
+  'currency-formatter',
+  'date-and-time',
+  'date-difference',
+  'flatpickr',
+  'simple-array-diff',
+  'vue-bulma-datepicker',
+  'vue',
+  'vue-router',
+]
 
 let rendererConfig = {
-  devtool: '#cheap-module-eval-source-map',
   entry: {
     renderer: path.join(__dirname, '../src/main.js')
   },
+  devtool: '#cheap-module-eval-source-map',
   externals: [
     ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
   ],
+  output: {
+    filename: '[name].js',
+    path: path.join(__dirname, '../package')
+  },
+  resolve: {
+    extensions: ['.js', '.vue', '.json', '.css', '.node'],
+    alias: {
+      '@': resolve('src')
+    },
+  },
   module: {
     rules: [
       {
@@ -41,26 +65,6 @@ let rendererConfig = {
             formatter: require('eslint-friendly-formatter')
           }
         }
-      },
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
-      },
-      {
-        test: /\.html$/,
-        use: 'vue-html-loader'
-      },
-      {
-        test: /\.js$/,
-        use: 'babel-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.node$/,
-        use: 'node-loader'
       },
       {
         test: /\.vue$/,
@@ -76,6 +80,11 @@ let rendererConfig = {
         }
       },
       {
+        test: /\.js$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: {
           loader: 'url-loader',
@@ -84,6 +93,21 @@ let rendererConfig = {
             name: 'imgs/[name]--[folder].[ext]'
           }
         }
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      },
+      {
+        test: /\.html$/,
+        use: 'vue-html-loader'
+      },
+      {
+        test: /\.node$/,
+        use: 'node-loader'
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
@@ -126,17 +150,6 @@ let rendererConfig = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   ],
-  output: {
-    filename: '[name].js',
-    libraryTarget: 'commonjs2',
-    path: path.join(__dirname, '../package')
-  },
-  resolve: {
-    alias: {
-      '@': path.join(__dirname, '../src')
-    },
-    extensions: ['.js', '.vue', '.json', '.css', '.node']
-  },
   target: 'electron-renderer'
 }
 

@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import addSubtractDate from 'add-subtract-date';
+import addSubtractDate from 'add-subtract-date'; // TODO:  DATE AND TIME ya contiene esta funcionalidad
 import dateTime from 'date-and-time';
 
 import WillowDatepicker from '@/components/Shared/Datepicker';
