@@ -6889,6 +6889,12 @@ vue-click-outside@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/vue-click-outside/-/vue-click-outside-1.0.6.tgz#bf3e0217210d7778299cc39ddcf89cc036089f22"
 
+vue-flexible-link@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-flexible-link/-/vue-flexible-link-1.0.1.tgz#521b4b5fb169ce5df25b724a95be3ebb0118f2cd"
+  dependencies:
+    eslint-friendly-formatter "^3.0.0"
+
 vue-hot-reload-api@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.1.0.tgz#9ca58a6e0df9078554ce1708688b6578754d86de"

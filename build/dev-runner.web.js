@@ -1,5 +1,7 @@
 require('./check-versions')();
 
+process.env.NODE_ENV = 'development';
+
 const opn = require('opn');
 const path = require('path');
 const chalk = require('chalk');
@@ -13,8 +15,6 @@ const webpackConfig = require('./webpack.web.dev.conf');
 const config = require('../config');
 const greeting = require('./Utils/greeting');
 const logStats = require('./Utils/logStats');
-
-process.env.NODE_ENV = 'production';
 
 // default port where dev server listens for incoming traffic
 const port = process.env.PORT || config.dev.port;

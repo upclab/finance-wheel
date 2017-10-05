@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const lintFriendlyFormatter = require('eslint-friendly-formatter');
 
 const assetsPath = require('./Utils/assetsPath');
@@ -80,4 +81,12 @@ module.exports = {
       },
     ],
   },
+  node: {
+    fs: 'empty',
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      ELECTRON_BUILD: isElectronBuild,
+    }),
+  ],
 };

@@ -9,7 +9,11 @@
           <div class="container">
             <div class="columns">
               <div id="right-column" class="column is-10 is-offset-1 has-text-right">
-                <div>
+                <div v-if="isElectronBuild">
+                  <h1 class="title has-text-white">Gracias!</h1>
+                  <h2 class="subtitle has-text-white">por confiar en nosotros!</h2>
+                </div>
+                <div v-else>
                   <h1 class="title has-text-white">Bienvenid@!</h1>
                   <h2 class="subtitle has-text-white">a tu asistente de finanzas!</h2>
                 </div>
@@ -37,6 +41,11 @@
 <script>
 export default {
   name: 'welcome',
+  data() {
+    return {
+      isElectronBuild: ELECTRON_BUILD,
+    };
+  },
 };
 </script>
 

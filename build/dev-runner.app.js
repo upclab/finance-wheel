@@ -26,6 +26,8 @@ let electronProcess = null;
 let manualRestart = false;
 let hotMiddleware;
 
+rendererConfig.target = 'electron-renderer';
+
 function startRenderer() {
   return new Promise((resolve) => {
     rendererConfig.entry.renderer = [path.join(__dirname, 'dev-client')].concat(rendererConfig.entry.app);

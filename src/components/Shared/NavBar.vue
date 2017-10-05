@@ -46,12 +46,12 @@
       </div>
 
       <div class="navbar-end">
-        <a class="navbar-item is-hidden-desktop-only" href="https://github.com/upclab/finance-wheel" target="_blank">
+        <flexible-link :native="isElectronBuild" custom-class="navbar-item is-hidden-desktop-only" href="https://github.com/upclab/finance-wheel" target="_blank">
           <span class="icon" style="color: #333;">
             <icon name="github" scale="3"></icon>
           </span>
-        </a>
-        <div class="navbar-item">
+        </flexible-link>
+        <div class="navbar-item" v-if="!isElectronBuild">
           <div class="field is-grouped">
             <p class="control">
               <download-app-button></download-app-button>
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import FlexibleLink from 'vue-flexible-link/src/FlexibleLink';
+
 import DownloadAppButton from './NavBarComponents/DownloadAppButton';
 
 export default {
@@ -71,6 +73,7 @@ export default {
   data() {
     return {
       hamburgerMenuActive: false,
+      isElectronBuild: !!ELECTRON_BUILD,
     };
   },
   methods: {
@@ -80,8 +83,8 @@ export default {
   },
   components: {
     DownloadAppButton,
+    FlexibleLink,
   },
 };
 
 </script>
-
