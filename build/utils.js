@@ -1,21 +1,26 @@
+/* eslint-disable guard-for-in,no-restricted-syntax */
+
 const path = require('path');
-const config = require('../config');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-exports.assetsPath = function (_path) {
-  const assetsSubDirectory = process.env.NODE_ENV === 'production'
+const config = require('../config');
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+exports.assetsPath = function assetsPath(_path) {
+  const assetsSubDirectory = isProduction
     ? config.build.assetsSubDirectory
     : config.dev.assetsSubDirectory;
   return path.posix.join(assetsSubDirectory, _path);
 };
 
-exports.cssLoaders = function (options) {
-  options = options || {};
+exports.cssLoaders = function cssLoaders(optionsLoader) {
+  const options = optionsLoader || {};
 
   const cssLoader = {
     loader: 'css-loader',
     options: {
-      minimize: process.env.NODE_ENV === 'production',
+      minimize: isProduction,
       sourceMap: options.sourceMap,
     },
   };
@@ -56,9 +61,10 @@ exports.cssLoaders = function (options) {
 };
 
 // Generate loaders for standalone style files (outside of .vue)
-exports.styleLoaders = function (options) {
+exports.styleLoaders = function styleLoaders(options) {
   const output = [];
   const loaders = exports.cssLoaders(options);
+
   for (const extension in loaders) {
     const loader = loaders[extension];
     output.push({

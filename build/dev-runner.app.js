@@ -2,7 +2,6 @@
 
 require('./check-versions')();
 
-process.env.NODE_ENV = 'production';
 process.env.ELECTRON_BUILD = true;
 
 const chalk = require('chalk');
