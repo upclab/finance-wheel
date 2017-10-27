@@ -19,9 +19,21 @@
                 </div>
                 <div class="content is-medium is-self-aligned-end">
                   <ul class="has-no-decoration">
-                    <li><a class="has-text-white" href="http://github.com/upclab/finance-wheel" target="_blank">Acerca De</a></li>
-                    <li><a class="has-text-white" href="http://github.com/upclab/finance-wheel" target="_blank">Repositorio</a></li>
-                    <li><a class="has-text-white" href="http://github.com/upclab/finance-wheel/issues" target="_blank">Dudas</a></li>
+                    <li>
+                      <flexible-link :native="isElectronBuild" custom-class="has-text-white" href="https://github.com/upclab/finance-wheel" target="_blank">
+                        Acerca De
+                      </flexible-link>
+                    </li>
+                    <li>
+                      <flexible-link :native="isElectronBuild" custom-class="has-text-white" href="https://github.com/upclab/finance-wheel" target="_blank">
+                        Repositorio
+                      </flexible-link>
+                    </li>
+                    <li>
+                      <flexible-link :native="isElectronBuild" custom-class="has-text-white" href="https://github.com/upclab/finance-wheel/issues" target="_blank">
+                        Dudas
+                      </flexible-link>
+                    </li>
                   </ul>
                 </div>
                 <div class="is-self-aligned-end">
@@ -39,12 +51,17 @@
 </template>
 
 <script>
+import FlexibleLink from 'vue-flexible-link/src/FlexibleLink';
+
 export default {
   name: 'welcome',
   data() {
     return {
-      isElectronBuild: ELECTRON_BUILD,
+      isElectronBuild: !!ELECTRON_BUILD,
     };
+  },
+  components: {
+    FlexibleLink,
   },
 };
 </script>
