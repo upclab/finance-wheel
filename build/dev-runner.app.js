@@ -16,8 +16,8 @@ const config = require('../config');
 const greeting = require('./Utils/greeting');
 const logStats = require('./Utils/logStats');
 const electronLog = require('./Utils/electronLog');
-const mainConfig = require('./webpack.app.base.conf');
-const rendererConfig = require('./webpack.web.dev.conf');
+const mainConfig = require('./webpack.app.wrapper.conf');
+const rendererConfig = require('./webpack.renderer.dev.conf');
 
 // default port where dev server listens for incoming traffic
 const port = process.env.PORT || config.app.port;

@@ -6,7 +6,9 @@ const BabiliWebpackPlugin = require('babili-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const assetsPath = require('./Utils/assetsPath');
-const baseWebpackConfig = require('./webpack.web.base.conf');
+const baseWebpackConfig = require('./webpack.renderer.base.conf');
+
+baseWebpackConfig.target = 'electron-renderer';
 
 const styleLoaders = require('./Utils/styleLoaders');
 const config = require('../config');
@@ -71,12 +73,5 @@ webpackConfig.plugins.push(
     minimize: true,
   }),
 );
-
-if (config.build.bundleAnalyzerReport) {
-  /* eslint-disable import/no-extraneous-dependencies, import/no-unresolved, global-require */
-  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-  /* eslint-enable import/no-extraneous-dependencies, import/no-unresolved, global-require */
-  webpackConfig.plugins.push(new BundleAnalyzerPlugin());
-}
 
 module.exports = webpackConfig;

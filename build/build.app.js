@@ -1,6 +1,7 @@
 /* eslint-disable no-console  */
 
 process.env.NODE_ENV = 'production';
+process.env.ELECTRON_BUILD = true;
 
 const chalk = require('chalk');
 const del = require('del');
@@ -10,8 +11,8 @@ const greeting = require('./Utils/greeting');
 const packConf = require('./Utils/packConf');
 const logStats = require('./Utils/logStats');
 
-const mainConfig = require('./webpack.app.base.conf');
-const rendererConfig = require('./webpack.app.prod.conf');
+const mainConfig = require('./webpack.app.wrapper.conf');
+const rendererConfig = require('./webpack.renderer.prod.conf');
 
 const errorLog = `${chalk.bgRed.white(' ERROR ')} `;
 const okayLog = `${chalk.bgBlue.white(' OKAY ')}`;
